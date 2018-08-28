@@ -1,0 +1,28 @@
+<!-- TITLE -->
+<a class="lead" href="{{ recipe.url }}">{{ recipe.title }}</a>
+
+<!-- GENERAL INFORMATION -->
+<br><span class="label label-primary">{{ recipe.course|lower }}</span>
+<br><span class="label label-primary">{{ recipe.elaboration_time }}</span>&nbsp;
+{% if recipe.keywords.count %}
+{% for kw in recipe.keywords.all %}
+<span class="label label-primary">{{ kw|lower }}</span>&nbsp;
+{% endfor %}
+{% endif %}
+<!-- ELABORATION -->
+{% if recipe.elaboration %}
+<br>{{ bookmark.elaboration|linebreaksbr }}
+{% endif %}
+<!-- META INFORMATION -->
+<br>by <a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a>
+{% if not recipe.is_public %}
+<br><span class="label label-warning">private</span>
+{% else %}
+<br>
+{% endif %}
+{{ recipe.date_created|timesince }} ago
+<!-- EDIT FORM -->
+{% if recipe.owner == user or user.is_superuser %}
+<br><a class="btn btn-default btn-xs" role="button"
+       href="{% url "recipe_edit" recipe.pk %}">Edit recipe</a>
+{% endif %}

@@ -1,0 +1,9 @@
+{% extends "recipes/recipes_list.html" %}
+
+{% block title %}{{ owner.username }}'s Recipes{% endblock %}
+
+{% block heading %}
+<h2>{{ owner.username }}'s Recipes<br>
+    <small>{{ recipes.count }} recipes in total</small>
+</h2>
+{% endblock %}

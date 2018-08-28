@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Latest Recipes{% endblock %}
+
+{% block heading %}
+<h2>Latest Recipes</h2>
+{% endblock %}
+
+{% block content %}
+<ul class="list-unstyled">
+    {% for recipe in recipes %}
+    <li class="well well-sm">{% include "recipes/recipe.html" %}</li>
+    {% empty %}
+    <li>No recipes</li>
+    {% endfor %}
+</ul>
+{% endblock %}
+
