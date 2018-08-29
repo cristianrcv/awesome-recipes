@@ -4,8 +4,6 @@
 <!-- Codacy -->
 [![Codacy grade](https://api.codacy.com/project/badge/Grade/c04cb69ce4104ea9839f2edb901ddefa)](https://www.codacy.com/app/cristianrcv/awesome-recipes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cristianrcv/awesome-recipes&amp;utm_campaign=Badge_Grade)
 
-[![Codacy grade](https://api.codacy.com/project/badge/Grade/XX)](https://www.codacy.com/app/XX)
-
 <!-- [![Codacy coverage](https://api.codacy.com/project/badge/Coverage/XX)](https://www.codacy.com/app/XX) -->
 
 <!-- Codecov -->
@@ -39,8 +37,8 @@ It is a personal project and it is still under development.
 * [Dependencies](#dependencies)
     * [Software Dependencies](#software-dependencies)
     * [Python Module Dependencies](#python-module-dependencies)
-* [Commands](#commands)
-    * [Run](#run)
+* [Useful Commands](#useful-commands)
+* [Style](#style)
 * [Contributing](#contributing)
 * [Author](#author)
 * [License](#license)
@@ -58,9 +56,11 @@ It is a personal project and it is still under development.
 
 - [Django][django] Python module
 - [django-crispy-forms][django-crispy-forms] Python module
+- [django-measurement][django-measurement] Python module
+- [measurement][measurement] Python module
 
 
-## Commands
+## Useful Commands
 
 ### Run
 
@@ -68,7 +68,22 @@ It is a personal project and it is still under development.
 python manage.py runserver
 ```
 
-### Style
+### Database
+
+```
+python manage.py flush
+python manage.py makemigrations recipe
+python manage.py migrate
+```
+
+### Super user creation
+
+```
+python manage.py createsuperuser
+```
+
+
+## Style
 
 This project follows the [PyCodeStyle guide][pycodestyle] (formerly called pep8).
 
@@ -100,6 +115,8 @@ Licensed under the [Apache 2.0 License][apache-2]
 
 [django]: https://www.djangoproject.com/
 [django-crispy-forms]: https://django-crispy-forms.readthedocs.io/en/latest/
+[django-measurement]: https://github.com/coddingtonbear/django-measurement
+[measurement]: https://pypi.org/project/measurement/
 
 [pycodestyle]: https://pypi.python.org/pypi/pycodestyle
 
