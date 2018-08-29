@@ -9,15 +9,17 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
 from .models import Recipe
-from .forms import RecipeForm
+from .forms import RecipeForm, RecipeDeleteForm
 
 
+@login_required
 def recipes_list(request):
     recipes = Recipe.public.all()
     context = {'recipes': recipes}
     return render(request, 'recipes/recipes_list.html', context)
 
 
+@login_required
 def recipes_user_list(request, username):
     user = get_object_or_404(User, username=username)
     if request.user == user:
@@ -26,6 +28,13 @@ def recipes_user_list(request, username):
         recipes = Recipe.public.filter(owner__username=username)
     context = {'recipes': recipes, 'owner': user}
     return render(request, 'recipes/recipes_user_list.html', context)
+
+
+@login_required
+def recipes_filter(request):
+    recipes = Recipe.public.all()
+    context = {'recipes': recipes}
+    return render(request, 'recipes/recipes_filter.html', context)
 
 
 @login_required
@@ -41,7 +50,7 @@ def recipe_create(request):
     else:
         form = RecipeForm()
     context = {'form': form, 'create': True}
-    return render(request, 'recipes/form.html', context)
+    return render(request, 'recipes/create_edit_form.html', context)
 
 
 @login_required
@@ -57,4 +66,24 @@ def recipe_edit(request, pk):
     else:
         form = RecipeForm(instance=recipe)
     context = {'form': form, 'create': False}
-    return render(request, 'recipes/form.html', context)
+    return render(request, 'recipes/create_edit_form.html', context)
+
+
+@login_required
+def recipe_delete(request, pk):
+    recipe = get_object_or_404(Recipe, pk=pk)
+    if recipe.owner != request.user and not request.user.is_superuser:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        form = RecipeDeleteForm(request.POST, instance=recipe)
+
+        if form.is_valid():
+            recipe.delete()
+            return redirect('recipes_user_list', username=request.user.username)
+
+    else:
+        form = RecipeDeleteForm(instance=recipe)
+
+    template_vars = {'form': form}
+    return render(request, 'recipes/delete_form.html', template_vars)

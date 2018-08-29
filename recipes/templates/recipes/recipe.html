@@ -1,28 +1,33 @@
 <!-- TITLE -->
-<a class="lead" href="{{ recipe.url }}">{{ recipe.title }}</a>
+<a class="lead" href="{% url "recipe_detail" recipe.pk %}">{{ recipe.title }}</a>
 
 <!-- GENERAL INFORMATION -->
-<br><span class="label label-primary">{{ recipe.course|lower }}</span>
-<br><span class="label label-primary">{{ recipe.elaboration_time }}</span>&nbsp;
+<br>Course: <span class="label label-warning">{{ recipe.course|lower }}</span>
+<br>Elaboration Time: {{ recipe.elaboration_time }}
+<br>Keywords:
 {% if recipe.keywords.count %}
 {% for kw in recipe.keywords.all %}
 <span class="label label-primary">{{ kw|lower }}</span>&nbsp;
 {% endfor %}
 {% endif %}
-<!-- ELABORATION -->
-{% if recipe.elaboration %}
-<br>{{ bookmark.elaboration|linebreaksbr }}
+<!-- INGREDIENTS FOR ELABORATION -->
+<br>Ingredients:
+{% if recipe.ingredients.count %}
+{% for ingredient in recipe.ingredients.all %}
+<span class="label label-primary">{{ ingredient.name|lower }}</span>&nbsp;
+{% endfor %}
 {% endif %}
 <!-- META INFORMATION -->
-<br>by <a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a>
+<br>Written by <a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a>
+<br>Access Level:
 {% if not recipe.is_public %}
-<br><span class="label label-warning">private</span>
+<span class="label label-primary">private</span>
 {% else %}
-<br>
+<span class="label label-warning">public</span>
 {% endif %}
-{{ recipe.date_created|timesince }} ago
-<!-- EDIT FORM -->
+<br>{{ recipe.date_created|timesince }} ago
+<!-- EDIT/DELETE FORMS -->
 {% if recipe.owner == user or user.is_superuser %}
-<br><a class="btn btn-default btn-xs" role="button"
-       href="{% url "recipe_edit" recipe.pk %}">Edit recipe</a>
+<br><a class="btn btn-default btn-xs" role="button" href="{% url "recipe_edit" recipe.pk %}">Edit recipe</a>
+<a class="btn btn-default btn-xs" role="button" href="{% url "recipe_delete" recipe.pk %}">Delete recipe</a>
 {% endif %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Title: {{ recipe.title }}</h1>
+
+  <!-- GENERAL INFORMATION -->
+  <h2>General Information</h2>
+  <p><strong>Course:</strong>{{ recipe.course|lower }}</p>
+  <p><strong>Elaboration Time:</strong> {{ recipe.elaboration_time }}</p>
+  <p><strong>Keywords:</strong>
+    {% if recipe.keywords.count %}
+      {% for kw in recipe.keywords.all %}
+        <span class="label label-primary">{{ kw|lower }}</span>&nbsp;
+      {% endfor %}
+    {% endif %}
+  </p>
+
+  <!-- INGREDIENTS -->
+  <h2>Ingredients</h2>
+  {% if recipe.ingredients.count %}
+    {% for ingredient in recipe.ingredients.all %}
+      <p>{{ ingredient.quantity |lower }} {{ ingredient.name |lower }}</p>&nbsp;
+    {% endfor %}
+  {% endif %}
+
+  <!-- ELABORATION -->
+  <h2>Elaboration</h2>
+  {% if recipe.elaboration %}
+    <p>{{ recipe.elaboration|linebreaksbr }}</p>
+  {% endif %}
+
+  <!-- META INFORMATION -->
+  <h2>Meta Information</h2>
+  <p><strong>Written by:</strong><a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a></p>
+  <p><strong>Access Level:</strong>
+    {% if not recipe.is_public %}
+      <span class="label label-primary">private</span>
+    {% else %}
+      <span class="label label-warning">public</span>
+    {% endif %}
+  </p>
+  <p><strong>Creation Date: </strong>{{ recipe.date_created|timesince }} ago</p>
+
+  <!-- EDIT/DELETE FORMS -->
+  {% if recipe.owner == user or user.is_superuser %}
+    <p>
+      <a class="btn btn-default btn-xs" role="button" href="{% url "recipe_edit" recipe.pk %}">Edit recipe</a>
+      <a class="btn btn-default btn-xs" role="button" href="{% url "recipe_delete" recipe.pk %}">Delete recipe</a>
+    </p>
+  {% endif %}
+
+{% endblock %}

@@ -1,11 +1,16 @@
 {% if user.is_authenticated %}
 <ul class="nav navbar-nav navbar-right">
+  <li><a href="{% url "recipes_list" %}">Public recipes</a></li>
+  <li><a href="{% url "recipes_user_list" user.username %}">My recipes</a></li>
+  <li><a href="{% url "recipes_filter" %}">Filter recipes</a></li>
+  <li><a href="{% url "recipe_create" %}">Create Recipe</a></li>
   <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
         aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
-      <li><a href="{% url "recipes_user_list" user.username %}">
-          My bookmarks</a></li>
+      <li><a href="{% url "recipes_list" %}">Public recipes</a></li>
+      <li><a href="{% url "recipes_user_list" user.username %}">My recipes</a></li>
+      <li><a href="{% url "recipes_filter" %}">Filter recipes</a></li>
       <li><a href="{% url "awesome_recipes_logout" %}">Logout</a></li>
     </ul>
   </li>

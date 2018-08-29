@@ -21,7 +21,7 @@ from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', include('recipes.urls')),
     url(r'^login/$', login, {'template_name': 'login.html'}, name='awesome_recipes_login'),
     url(r'^logout/$', logout, {'next_page': reverse_lazy('recipes_list')}, name='awesome_recipes_logout'),
+    url(r'^', include('recipes.urls')),
 ]

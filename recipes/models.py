@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 
+from django_measurement.models import MeasurementField
+from measurement.measures import Time, Volume
+
 
 #
 # MANAGERS
@@ -22,7 +25,6 @@ class PublicRecipesManager(models.Manager):
 #
 # MODELS
 #
-
 
 # Course: starter, main, dessert, etc.
 @python_2_unicode_compatible
@@ -57,16 +59,37 @@ class Keyword(models.Model):
 class RawMaterial(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
-    @property
-    def recipes(self):
-        return [ingredient.recipe for ingredient in self.used_in]
-
     def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = 'raw material'
         verbose_name_plural = 'raw materials'
+        ordering = ['name']
+
+
+# Ingredient
+@python_2_unicode_compatible
+class Ingredient(models.Model):
+    name = models.ForeignKey(RawMaterial, verbose_name='material', related_name='used_in')
+
+    quantity = MeasurementField(
+        name="quantity",
+        measurement=Volume,
+        unit_choices=(('cubic_centimeter', 'cm3'), ('cubic_decimeter', 'dm3'),
+                      ('l', 'l'),
+                      ('imperial_g', 'g'),
+                      ('imperial_tbsp', 'tbspoon'), ('imperial_tsp', 'teaspoon')),
+        default=0
+    )
+
+    def __str__(self):
+        # Returns the name of the raw material
+        return self.name.name
+
+    class Meta:
+        verbose_name = 'ingredient'
+        verbose_name_plural = 'ingredients'
         ordering = ['name']
 
 
@@ -77,8 +100,12 @@ class Recipe(models.Model):
     course = models.ForeignKey(Course, verbose_name='course', related_name='recipes')
     keywords = models.ManyToManyField(Keyword, blank=True)
 
-    elaboration_time = models.DurationField('elaboration time')
+    elaboration_time = MeasurementField(name='elaboration_time',
+                                        measurement=Time,
+                                        unit_choices=(('hr', 'h'), ('min', 'min')),
+                                        default=0)
     elaboration = models.TextField('elaboration', blank=True)
+    ingredients = models.ManyToManyField(Ingredient, blank=True)
 
     owner = models.ForeignKey(User, verbose_name='owner', related_name='recipes')
     is_public = models.BooleanField('public', default=True)
@@ -101,19 +128,3 @@ class Recipe(models.Model):
         verbose_name = 'recipe'
         verbose_name_plural = 'recipes'
         ordering = ['title']
-
-
-# Ingredient
-@python_2_unicode_compatible
-class Ingredient(models.Model):
-    name = models.ForeignKey(RawMaterial, verbose_name='ingredient', related_name='used_in')
-    quantity = models.PositiveSmallIntegerField('number')
-    recipe = models.ForeignKey(Recipe, verbose_name='recipe', related_name='ingredients')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'ingredient'
-        verbose_name_plural = 'ingredients'
-        ordering = ['name']
