@@ -2,32 +2,36 @@
 <!-- [![Build Status](https://travis-ci.org/XX)](https://travis-ci.org/XX) -->
 
 <!-- Codacy -->
-<!-- [![Codacy grade](https://api.codacy.com/project/badge/Grade/d9a02acdf3ad4213b4932b5441201101)](https://www.codacy.com/app/cristianrcv/pycompss-autoparallel?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cristianrcv/pycompss-autoparallel&amp;utm_campaign=Badge_Grade) -->
+[![Codacy grade](https://api.codacy.com/project/badge/Grade/c04cb69ce4104ea9839f2edb901ddefa)](https://www.codacy.com/app/cristianrcv/awesome-recipes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cristianrcv/awesome-recipes&amp;utm_campaign=Badge_Grade)
 
-<!-- [![Codacy coverage](https://api.codacy.com/project/badge/Coverage/d9a02acdf3ad4213b4932b5441201101)](https://www.codacy.com/app/cristianrcv/pycompss-autoparallel?utm_source=github.com&utm_medium=referral&utm_content=cristianrcv/pycompss-autoparallel&utm_campaign=Badge_Coverage) -->
+[![Codacy grade](https://api.codacy.com/project/badge/Grade/XX)](https://www.codacy.com/app/XX)
+
+<!-- [![Codacy coverage](https://api.codacy.com/project/badge/Coverage/XX)](https://www.codacy.com/app/XX) -->
 
 <!-- Codecov -->
-<!-- [![codecov](https://codecov.io/gh/cristianrcv/pycompss-autoparallel/branch/master/graph/badge.svg)](https://codecov.io/gh/cristianrcv/pycompss-autoparallel) -->
+<!-- [![codecov](https://codecov.io/gh/XX)](https://codecov.io/gh/XX) -->
 
 <!-- Maven central packages version -->
 <!-- [![Maven Central](https://maven-badges.herokuapp.com/maven-central/XX)](https://maven-badges.herokuapp.com/maven-central/XX) -->
 
 <!-- Dependencies update status -->
-<!-- [![Dependency Status](https://www.versioneye.com/user/projects/59f6fd4c0fb24f1f1f38c653/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/59f6fd4c0fb24f1f1f38c653) -->
+<!-- [![Dependency Status](https://www.versioneye.com/user/XX)](https://www.versioneye.com/user/XX) -->
 
 <!-- Java DOC status -->
 <!-- [![Javadocs](http://javadoc.io/badge/XX.svg)](http://javadoc.io/doc/XX) -->
 
 <!-- Main Repository language -->
-<!-- [![Language](https://img.shields.io/badge/language-python-brightgreen.svg)](https://img.shields.io/badge/language-python-brightgreen.svg) -->
+[![Language](https://img.shields.io/badge/language-python-brightgreen.svg)](https://img.shields.io/badge/language-python-brightgreen.svg)
 
 <!-- Repository License -->
-<!-- [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cristianrcv/pycompss-pluto/blob/master/LICENSE) -->
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/cristianrcv/pycompss-pluto/blob/master/LICENSE)
 
 
 # Awesome Recipes
 
-Django website for Awesome Recipes!
+Awesome Recipes is a website to store food recipes and perform queries on them.
+
+It is a personal project and it is still under development.
 
 
 ## Table of Contents
@@ -86,7 +90,7 @@ submit a pull request or contact the author if necessary.
 
 ## Author
 
-Cristián Ramón-Cortés Vilarrodona <cristian.ramoncortes(at)bsc.es> ([Personal WebPage][cristian])
+Cristián Ramón-Cortés Vilarrodona <cristian.ramoncortes(at)bsc.es> ([Personal Website][cristian])
 
 
 ## License
@@ -94,8 +98,8 @@ Cristián Ramón-Cortés Vilarrodona <cristian.ramoncortes(at)bsc.es> ([Personal
 Licensed under the [Apache 2.0 License][apache-2]
 
 
-[django]: 
-[django-crispy-forms]:
+[django]: https://www.djangoproject.com/
+[django-crispy-forms]: https://django-crispy-forms.readthedocs.io/en/latest/
 
 [pycodestyle]: https://pypi.python.org/pypi/pycodestyle
 
