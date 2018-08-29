@@ -1,2 +1,7 @@
 # Ignore IntelliJ files
 .idea/
+
+# Ignore python compiled files
+*.pyc
+*.pyo
+
