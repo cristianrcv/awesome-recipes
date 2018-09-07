@@ -72,7 +72,7 @@ python manage.py runserver
 
 ```
 python manage.py flush
-python manage.py makemigrations recipe
+python manage.py makemigrations recipes
 python manage.py migrate
 ```
 
