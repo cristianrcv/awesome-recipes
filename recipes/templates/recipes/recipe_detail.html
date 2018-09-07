@@ -5,12 +5,12 @@
 
   <!-- GENERAL INFORMATION -->
   <h2>General Information</h2>
-  <p><strong>Course:</strong>{{ recipe.course|lower }}</p>
-  <p><strong>Elaboration Time:</strong> {{ recipe.elaboration_time }}</p>
+  <p><strong>Course: </strong>{{ recipe.course|title }}</p>
+  <p><strong>Elaboration Time: </strong>{{ recipe.elaboration_time }}{{ recipe.elaboration_time_units|lower}}</p>
   <p><strong>Keywords:</strong>
     {% if recipe.keywords.count %}
       {% for kw in recipe.keywords.all %}
-        <span class="label label-primary">{{ kw|lower }}</span>&nbsp;
+        <span class="label label-primary">{{ kw|title }}</span>&nbsp;
       {% endfor %}
     {% endif %}
   </p>
@@ -18,9 +18,11 @@
   <!-- INGREDIENTS -->
   <h2>Ingredients</h2>
   {% if recipe.ingredients.count %}
+    <ul>
     {% for ingredient in recipe.ingredients.all %}
-      <p>{{ ingredient.quantity |lower }} {{ ingredient.name |lower }}</p>&nbsp;
+      <li>{{ ingredient.quantity }} {{ ingredient.units |lower }} {{ ingredient.name |lower }}</li>&nbsp;
     {% endfor %}
+    </ul>
   {% endif %}
 
   <!-- ELABORATION -->
@@ -31,8 +33,8 @@
 
   <!-- META INFORMATION -->
   <h2>Meta Information</h2>
-  <p><strong>Written by:</strong><a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a></p>
-  <p><strong>Access Level:</strong>
+  <p><strong>Written by: </strong><a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a></p>
+  <p><strong>Access Level: </strong>
     {% if not recipe.is_public %}
       <span class="label label-primary">private</span>
     {% else %}

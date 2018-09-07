@@ -2,19 +2,19 @@
 <a class="lead" href="{% url "recipe_detail" recipe.pk %}">{{ recipe.title }}</a>
 
 <!-- GENERAL INFORMATION -->
-<br>Course: <span class="label label-warning">{{ recipe.course|lower }}</span>
-<br>Elaboration Time: {{ recipe.elaboration_time }}
+<br>Course: <span class="label label-warning">{{ recipe.course|title }}</span>
+<br>Elaboration Time: {{ recipe.elaboration_time }} {{ recipe.elaboration_time_units|lower }}
 <br>Keywords:
 {% if recipe.keywords.count %}
 {% for kw in recipe.keywords.all %}
-<span class="label label-primary">{{ kw|lower }}</span>&nbsp;
+<span class="label label-primary">{{ kw|title }}</span>&nbsp;
 {% endfor %}
 {% endif %}
 <!-- INGREDIENTS FOR ELABORATION -->
 <br>Ingredients:
 {% if recipe.ingredients.count %}
 {% for ingredient in recipe.ingredients.all %}
-<span class="label label-primary">{{ ingredient.name|lower }}</span>&nbsp;
+<span class="label label-primary">{{ ingredient.quantity }} {{ ingredient.units|lower }} {{ ingredient.name|lower }}</span>&nbsp;
 {% endfor %}
 {% endif %}
 <!-- META INFORMATION -->
