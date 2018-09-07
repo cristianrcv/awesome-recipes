@@ -150,12 +150,19 @@ class Ingredient(models.Model):
         ordering = ['name']
 
 
+def user_directory_path(instance, filename):
+    # File will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.user.id, filename)
+
+
 # Image
 @python_2_unicode_compatible
 class Image(models.Model):
     name = models.CharField('name', max_length=50, unique=True)
     description = models.CharField('description', max_length=255, blank=True)
-    document = models.FileField(upload_to='images/')
+
+    document = models.ImageField(upload_to=user_directory_path)
+
     uploaded_at = models.DateTimeField(auto_now_add=True)
     recipe = models.ForeignKey(Recipe, verbose_name='used_in', related_name='images', null=True)
 

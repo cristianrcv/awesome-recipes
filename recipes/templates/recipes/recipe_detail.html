@@ -31,6 +31,16 @@
     <p>{{ recipe.elaboration|linebreaksbr }}</p>
   {% endif %}
 
+  <!-- IMAGES -->
+  <h2>IMAGES</h2>
+  {% if recipe.images.count %}
+    <ul>
+    {% for image in recipe.images.all %}
+      <li>{{ ingredient.document }}</li>&nbsp;
+    {% endfor %}
+    </ul>
+  {% endif %}
+
   <!-- META INFORMATION -->
   <h2>Meta Information</h2>
   <p><strong>Written by: </strong><a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a></p>
