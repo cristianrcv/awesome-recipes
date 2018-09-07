@@ -6,9 +6,6 @@ from django.contrib.auth.models import User
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 
-from django_measurement.models import MeasurementField
-from measurement.measures import Time, Volume
-
 
 #
 # MANAGERS
@@ -68,44 +65,25 @@ class RawMaterial(models.Model):
         ordering = ['name']
 
 
-# Ingredient
-@python_2_unicode_compatible
-class Ingredient(models.Model):
-    name = models.ForeignKey(RawMaterial, verbose_name='material', related_name='used_in')
-
-    quantity = MeasurementField(
-        name="quantity",
-        measurement=Volume,
-        unit_choices=(('cubic_centimeter', 'cm3'), ('cubic_decimeter', 'dm3'),
-                      ('l', 'l'),
-                      ('imperial_g', 'g'),
-                      ('imperial_tbsp', 'tbspoon'), ('imperial_tsp', 'teaspoon')),
-        default=0
-    )
-
-    def __str__(self):
-        # Returns the name of the raw material
-        return self.name.name
-
-    class Meta:
-        verbose_name = 'ingredient'
-        verbose_name_plural = 'ingredients'
-        ordering = ['name']
-
-
 # Recipe
 @python_2_unicode_compatible
 class Recipe(models.Model):
-    title = models.CharField('title', max_length=255)
+    HOUR = 'h'
+    MINUTE = 'min'
+
+    UNITS = (
+        (HOUR, 'hour'),
+        (MINUTE, 'minute')
+    )
+
+    title = models.CharField('title', max_length=100, unique=True)
     course = models.ForeignKey(Course, verbose_name='course', related_name='recipes')
     keywords = models.ManyToManyField(Keyword, blank=True)
 
-    elaboration_time = MeasurementField(name='elaboration_time',
-                                        measurement=Time,
-                                        unit_choices=(('hr', 'h'), ('min', 'min')),
-                                        default=0)
+    elaboration_time = models.PositiveSmallIntegerField()
+    elaboration_time_units = models.CharField(max_length=10, choices=UNITS, default='1')
     elaboration = models.TextField('elaboration', blank=True)
-    ingredients = models.ManyToManyField(Ingredient, blank=True)
+    # ingredients = models.ManyToManyField(Ingredient, blank=True)
 
     owner = models.ForeignKey(User, verbose_name='owner', related_name='recipes')
     is_public = models.BooleanField('public', default=True)
@@ -128,3 +106,63 @@ class Recipe(models.Model):
         verbose_name = 'recipe'
         verbose_name_plural = 'recipes'
         ordering = ['title']
+
+
+# Ingredient
+@python_2_unicode_compatible
+class Ingredient(models.Model):
+    UNIT = 'u'
+    GRAM = 'g'
+    KILOGRAM = 'kg'
+    LITER = 'l'
+    DECILITER = 'dl'
+    MILLILITER = 'ml'
+    CUBIC_CM = 'cm3'
+    CUBIC_DM = 'dm3'
+    TABLESPOON = 'tbsp'
+    TEASPOON = 'tsp'
+
+    UNITS = (
+        (UNIT, 'unit'),
+        (GRAM, 'gram'),
+        (KILOGRAM, 'kilogram'),
+        (LITER, 'liter'),
+        (DECILITER, 'dl'),
+        (MILLILITER, 'ml'),
+        (CUBIC_CM, 'cm3'),
+        (CUBIC_DM, 'dm3'),
+        (TABLESPOON, 'tablespoon'),
+        (TEASPOON, 'teaspoon'),
+    )
+
+    name = models.ForeignKey(RawMaterial, verbose_name='material', related_name='used_in')
+    quantity = models.PositiveSmallIntegerField()
+    units = models.CharField(max_length=15, choices=UNITS, default='1')
+    recipe = models.ForeignKey(Recipe, verbose_name='used_in', related_name='ingredients', null=True)
+
+    def __str__(self):
+        # Returns the name of the raw material
+        return self.name.name
+
+    class Meta:
+        verbose_name = 'ingredient'
+        verbose_name_plural = 'ingredients'
+        ordering = ['name']
+
+
+# Image
+@python_2_unicode_compatible
+class Image(models.Model):
+    name = models.CharField('name', max_length=50, unique=True)
+    description = models.CharField('description', max_length=255, blank=True)
+    document = models.FileField(upload_to='images/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    recipe = models.ForeignKey(Recipe, verbose_name='used_in', related_name='images', null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'image'
+        verbose_name_plural = 'images'
+        ordering = ['description']

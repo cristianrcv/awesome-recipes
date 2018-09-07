@@ -40,16 +40,16 @@ def recipes_filter(request):
 @login_required
 def recipe_create(request):
     if request.method == 'POST':
-        form = RecipeForm(data=request.POST)
-        if form.is_valid():
-            recipe = form.save(commit=False)
+        recipe_form = RecipeForm(data=request.POST)
+        if recipe_form.is_valid():
+            recipe = recipe_form.save(commit=False)
             recipe.owner = request.user
             recipe.save()
-            form.save_m2m()
+            recipe_form.save_m2m()
             return redirect('recipes_user_list', username=request.user.username)
     else:
-        form = RecipeForm()
-    context = {'form': form, 'create': True}
+        recipe_form = RecipeForm()
+    context = {'message': "Check your form", 'recipe_form': recipe_form, 'create': True}
     return render(request, 'recipes/create_edit_form.html', context)
 
 
@@ -59,13 +59,13 @@ def recipe_edit(request, pk):
     if recipe.owner != request.user and not request.user.is_superuser:
         raise PermissionDenied
     if request.method == 'POST':
-        form = RecipeForm(instance=recipe, data=request.POST)
-        if form.is_valid():
-            form.save()
+        recipe_form = RecipeForm(instance=recipe, data=request.POST)
+        if recipe_form.is_valid():
+            recipe_form.save()
             return redirect('recipes_user_list', username=request.user.username)
     else:
-        form = RecipeForm(instance=recipe)
-    context = {'form': form, 'create': False}
+        recipe_form = RecipeForm(instance=recipe)
+    context = {'recipe_form': recipe_form, 'create': False}
     return render(request, 'recipes/create_edit_form.html', context)
 
 
