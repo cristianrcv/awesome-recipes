@@ -8,8 +8,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
-from .models import Recipe
+from .models import Recipe, Ingredient, Image
 from .forms import RecipeForm, RecipeDeleteForm
+from .forms import IngredientsFormSet, ImageFormSet
 
 
 @login_required
@@ -39,17 +40,40 @@ def recipes_filter(request):
 
 @login_required
 def recipe_create(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
+        recipe_form = RecipeForm(request.GET or None)
+        ingredients_form = IngredientsFormSet(queryset=Ingredient.objects.none())
+        images_form = ImageFormSet(queryset=Image.objects.none())
+    elif request.method == 'POST':
         recipe_form = RecipeForm(data=request.POST)
-        if recipe_form.is_valid():
+        ingredients_form = IngredientsFormSet(data=request.POST)
+        images_form = ImageFormSet(request.POST, request.FILES)
+        if recipe_form.is_valid() and ingredients_form.is_valid() and images_form.is_valid():
+            # Save recipe
             recipe = recipe_form.save(commit=False)
             recipe.owner = request.user
             recipe.save()
             recipe_form.save_m2m()
+            # Save nested forms
+            for ingredient_form in ingredients_form:
+                ingredient = ingredient_form.save(commit=False)
+                ingredient.recipe = recipe
+                ingredient.save()
+            for image_form in images_form:
+                image = image_form.save(commit=False)
+                image.recipe = recipe
+                image.save()
+            # Redirect
             return redirect('recipes_user_list', username=request.user.username)
     else:
         recipe_form = RecipeForm()
-    context = {'message': "Check your form", 'recipe_form': recipe_form, 'create': True}
+        ingredients_form = IngredientsFormSet()
+        images_form = ImageFormSet()
+    context = {'message': "Check your form",
+               'recipe_form': recipe_form,
+               'ingredients_form': ingredients_form,
+               'images_form': images_form,
+               'create': True}
     return render(request, 'recipes/create_edit_form.html', context)
 
 
@@ -58,14 +82,37 @@ def recipe_edit(request, pk):
     recipe = get_object_or_404(Recipe, pk=pk)
     if recipe.owner != request.user and not request.user.is_superuser:
         raise PermissionDenied
+
     if request.method == 'POST':
         recipe_form = RecipeForm(instance=recipe, data=request.POST)
-        if recipe_form.is_valid():
-            recipe_form.save()
+        ingredients_form = IngredientsFormSet(data=request.POST)
+        images_form = ImageFormSet(request.POST, request.FILES)
+        if recipe_form.is_valid() and ingredients_form.is_valid() and images_form.is_valid():
+            # Save recipe
+            recipe = recipe_form.save(commit=False)
+            recipe.owner = request.user
+            recipe.save()
+            recipe_form.save_m2m()
+            # Save nested forms
+            for ingredient_form in ingredients_form:
+                ingredient = ingredient_form.save(commit=False)
+                ingredient.recipe = recipe
+                ingredient.save()
+            for image_form in images_form:
+                image = image_form.save(commit=False)
+                image.recipe = recipe
+                image.save()
+            # Redirect
             return redirect('recipes_user_list', username=request.user.username)
     else:
         recipe_form = RecipeForm(instance=recipe)
-    context = {'recipe_form': recipe_form, 'create': False}
+        ingredients_form = IngredientsFormSet()
+        images_form = ImageFormSet()
+    context = {'message': "Check your form",
+               'recipe_form': recipe_form,
+               'ingredients_form': ingredients_form,
+               'images_form': images_form,
+               'create': False}
     return render(request, 'recipes/create_edit_form.html', context)
 
 
