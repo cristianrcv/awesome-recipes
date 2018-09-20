@@ -10,7 +10,6 @@
         <title>Awesome Recipes - {% block title %}{% endblock %}</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="{% static "apple-touch-icon.png" %}">
 
         <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
         <style>
@@ -22,7 +21,9 @@
         <link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}">
         <link rel="stylesheet" href="{% static "css/main.css" %}">
 
+        <!-- Java Scripts -->
         <script src="{% static "js/vendor/modernizr-2.8.3-respond-1.4.2.min.js" %}"></script>
+        {% block extrahead %}{% endblock %}
     </head>
 
     <body>
@@ -56,19 +57,17 @@
             {% block content %}{% endblock %}
           </div>
 
-          <hr>
-
           <footer>
             <p>&copy; 2018 - Cristian Ramon-Cortes</p>
           </footer>
         </div> <!-- /container -->
 
+        <!-- Java Scripts -->
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{% static "js/vendor/jquery-1.11.2.min.js" %}"><\/script>')</script>
 
-        <script src="{% static "js/vendor/bootstrap.min.js" %}"></script>
-
-        <script src="{% static "js/main.js" %}"></script>
+        <script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>

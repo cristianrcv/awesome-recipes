@@ -18,10 +18,13 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.views import login, logout
+from django.conf import settings
+from django.views.static import serve
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', login, {'template_name': 'login.html'}, name='awesome_recipes_login'),
     url(r'^logout/$', logout, {'next_page': reverse_lazy('recipes_list')}, name='awesome_recipes_logout'),
+    url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT, }),
     url(r'^', include('recipes.urls')),
 ]

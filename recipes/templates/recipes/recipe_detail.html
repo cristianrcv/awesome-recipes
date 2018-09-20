@@ -1,64 +1,79 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Title: {{ recipe.title }}</h1>
+<h1>Title: {{ recipe.title }}</h1>
 
-  <!-- GENERAL INFORMATION -->
-  <h2>General Information</h2>
-  <p><strong>Course: </strong>{{ recipe.course|title }}</p>
-  <p><strong>Elaboration Time: </strong>{{ recipe.elaboration_time }}{{ recipe.elaboration_time_units|lower}}</p>
-  <p><strong>Keywords:</strong>
-    {% if recipe.keywords.count %}
-      {% for kw in recipe.keywords.all %}
-        <span class="label label-primary">{{ kw|title }}</span>&nbsp;
-      {% endfor %}
-    {% endif %}
-  </p>
-
-  <!-- INGREDIENTS -->
-  <h2>Ingredients</h2>
-  {% if recipe.ingredients.count %}
-    <ul>
-    {% for ingredient in recipe.ingredients.all %}
-      <li>{{ ingredient.quantity }} {{ ingredient.units |lower }} {{ ingredient.name |lower }}</li>&nbsp;
-    {% endfor %}
-    </ul>
-  {% endif %}
-
-  <!-- ELABORATION -->
-  <h2>Elaboration</h2>
-  {% if recipe.elaboration %}
-    <p>{{ recipe.elaboration|linebreaksbr }}</p>
-  {% endif %}
-
-  <!-- IMAGES -->
-  <h2>IMAGES</h2>
-  {% if recipe.images.count %}
-    <ul>
-    {% for image in recipe.images.all %}
-      <li>{{ ingredient.document }}</li>&nbsp;
-    {% endfor %}
-    </ul>
-  {% endif %}
-
-  <!-- META INFORMATION -->
-  <h2>Meta Information</h2>
-  <p><strong>Written by: </strong><a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a></p>
-  <p><strong>Access Level: </strong>
-    {% if not recipe.is_public %}
-      <span class="label label-primary">private</span>
-    {% else %}
-      <span class="label label-warning">public</span>
-    {% endif %}
-  </p>
-  <p><strong>Creation Date: </strong>{{ recipe.date_created|timesince }} ago</p>
-
-  <!-- EDIT/DELETE FORMS -->
-  {% if recipe.owner == user or user.is_superuser %}
-    <p>
-      <a class="btn btn-default btn-xs" role="button" href="{% url "recipe_edit" recipe.pk %}">Edit recipe</a>
-      <a class="btn btn-default btn-xs" role="button" href="{% url "recipe_delete" recipe.pk %}">Delete recipe</a>
+<!-- GENERAL INFORMATION -->
+<hr>
+<h2>General Information</h2>
+<div>
+    <p><strong>Course: </strong>{{ recipe.course|title }}</p>
+    <p><strong>Elaboration Time: </strong>{{ recipe.elaboration_time }}{{ recipe.elaboration_time_units|lower}}</p>
+    <p><strong>Keywords:</strong>
+        {% if recipe.keywords.count %}
+            {% for kw in recipe.keywords.all %}
+                <span class="label label-primary">{{ kw|title }}</span>&nbsp;
+            {% endfor %}
+        {% endif %}
     </p>
-  {% endif %}
+</div>
+
+<!-- INGREDIENTS -->
+<hr>
+<h2>Ingredients</h2>
+<div>
+    {% if recipe.ingredients.count %}
+    <ul>
+        {% for ingredient in recipe.ingredients.all %}
+            <li>{{ ingredient.quantity }} {{ ingredient.units |lower }} {{ ingredient.name |lower }}</li>&nbsp;
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+<!-- ELABORATION -->
+<h2>Elaboration</h2>
+<div>
+    {% if recipe.elaboration %}
+        <p>{{ recipe.elaboration|linebreaksbr }}</p>
+    {% endif %}
+</div>
+
+<!-- IMAGES -->
+<hr>
+<h2>Images</h2>
+<div align="center">
+    {% if recipe.images.count %}
+        {% for image in recipe.images.all %}
+            <a href="{{ image.document.url }}" target="new"><img src="{{ image.document.url }}" width="70%"/></a>
+        {% endfor %}
+</div>
+{% endif %}
+
+<!-- META INFORMATION -->
+<hr>
+<h2>Meta Information</h2>
+<div>
+    <p><strong>Written by: </strong><a href="{% url 'recipes_user_list' recipe.owner.username %}">{{recipe.owner.username }}</a></p>
+    <p><strong>Access Level: </strong>
+        {% if not recipe.is_public %}
+        <span class="label label-primary">private</span>
+        {% else %}
+        <span class="label label-warning">public</span>
+        {% endif %}
+    </p>
+    <p><strong>Creation Date: </strong>{{ recipe.date_created|timesince }} ago</p>
+</div>
+
+<!-- EDIT/DELETE FORMS -->
+&nbsp
+<hr>
+{% if recipe.owner == user or user.is_superuser %}
+<div align="center">
+    <a class="btn btn-success" role="button" href="{% url 'recipe_edit' recipe.pk %}">Edit recipe</a>
+    &nbsp
+    <a class="btn btn-danger" role="button" href="{% url 'recipe_delete' recipe.pk %}">Delete recipe</a>
+</div>
+{% endif %}
 
 {% endblock %}

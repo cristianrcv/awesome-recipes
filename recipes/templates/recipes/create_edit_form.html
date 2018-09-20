@@ -5,6 +5,21 @@
 {% if create %}Create{% else %}Edit{% endif %} recipe
 {% endblock %}
 
+{% block extrahead %}
+<script type="text/javascript">
+    function upload_img(id, input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#img_'+id).attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+{% endblock %}
+
 {% block heading %}
 <h2>
     {% if create %}
@@ -13,6 +28,7 @@
     Edit recipe
     {% endif %}
 </h2>
+<hr>
 {% endblock %}
 
 {% block content %}
@@ -21,52 +37,94 @@
 {% else %}
 {% url "recipe_edit" pk=form.instance.pk as action_url %}
 {% endif %}
-<form action="{{ action_url }}" method="post" accept-charset="utf-8">
+
+<form action="{{ action_url }}" enctype="multipart/form-data" method="post" accept-charset="utf-8">
     {% csrf_token %}
 
+    <!-- General RECIPE form -->
     <div class="row spacer">
-        {{ recipe_form|crispy }}
+        {{ recipe_form | crispy }}
     </div>
 
+    <!-- Ingredients subform -->
     {{ ingredients_form.management_form }}
-    {% for form in ingredients_form %}
-    <div class="row form-row spacer">
-        <div class="col-2">
-            <label>Ingredients</label>
-        </div>
-        <table>
-            <tr>
-                <td>Quantity</td>
-                <td>Units</td>
-                <td>Raw Material</td>
-                <td>&nbsp;</td>
-            </tr>
-            <tr>
-                <td>{{ form.quantity }}</td>
-                <td>{{ form.units }}</td>
-                <td>{{ form.name }}</td>
-                <td><button class="btn btn-success add-form-row">+</button></td>
-            </tr>
+    <div class="row spacer">
+        <h3>Ingredients</h3>
+        <hr>
+        <table id="id_ingredients_table" border="0" cellpadding="0" cellspacing="25">
+            <thead>
+                <tr>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Units</th>
+                    <th scope="col">Raw Material</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ing in ingredients_form %}
+                <tr id="{{ ing.prefix }}-ingredients-row" class="form-container">
+                    <td>{{ ing.quantity }}</td>
+                    <td>{{ ing.units }}</td>
+                    <td>{{ ing.name }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
-    {% endfor %}
 
+    <!-- Images subform -->
     {{ images_form.management_form }}
-    {% for form in images_form %}
-    <div class="row form-row spacer">
-        <div class="col-2">
-            <label>Images</label>
-        </div>
-        <div class="col-4">
-            <div class="input-group">
-                <input type="file" name="image_file">
-                <button class="btn btn-success add-form-row">+</button>
-            </div>
-        </div>
-    </div>
-    {% endfor %}
 
+    <div class="row spacer">
+        <h3>Images</h3>
+        <hr>
+        <!-- {{ images_form.as_table }} -->
+        <table id="id_images_table" border="0" cellpadding="0" cellspacing="25">
+            <thead>
+                <tr>
+                    <th scope="col">Image 1</th>
+                    <th scope="col">Image 2</th>
+                    <th scope="col">Image 3</th>
+                    <th scope="col">Image 4</th>
+                    <th scope="col">Image 5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="{{ images_form.prefix }}-images-upload-row" class="form-container">
+                        <td>
+                            <input type="file" name="images_form-0-document" id="id_images_form-0-document" onchange="upload_img(0, this);"/>
+                            <input type="hidden" name="images_form-0-id" id="id_images_form-0-id" /></p>
+                        </td>
+                        <td>
+                            <input type="file" name="images_form-1-document" id="id_images_form-1-document" onchange="upload_img(1, this);"/>
+                            <input type="hidden" name="images_form-1-id" id="id_images_form-1-id" /></p>
+                        </td>
+                        <td>
+                            <input type="file" name="images_form-1-document" id="id_images_form-2-document" onchange="upload_img(2, this);"/>
+                            <input type="hidden" name="images_form-1-id" id="id_images_form-2-id" /></p>
+                        </td>
+                        <td>
+                            <input type="file" name="images_form-1-document" id="id_images_form-3-document" onchange="upload_img(3, this);"/>
+                            <input type="hidden" name="images_form-1-id" id="id_images_form-3-id" /></p>
+                        </td>
+                        <td>
+                            <input type="file" name="images_form-1-document" id="id_images_form-4-document" onchange="upload_img(4, this);"/>
+                            <input type="hidden" name="images_form-1-id" id="id_images_form-4-id" /></p>
+                        </td>
+                </tr>
+                <tr id="{{ images_form.prefix }}-images-display-row" class="form-container">
+                    <td><img id="img_0" src="#" alt="None" width="240"/></td>
+                    <td><img id="img_1" src="#" alt="None" width="240"/></td>
+                    <td><img id="img_2" src="#" alt="None" width="240"/></td>
+                    <td><img id="img_3" src="#" alt="None" width="240"/></td>
+                    <td><img id="img_4" src="#" alt="None" width="240"/></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Submission and cancel buttons -->
     <p>&nbsp</p>
+    <hr>
     <div class="row spacer" align="center">
         <input type="submit" class="btn btn-success" value="Save Recipe">
         &nbsp;&nbsp;
@@ -74,55 +132,3 @@
     </div>
 </form>
 {% endblock %}
-
-<script type='text/javascript'>
-function updateElementIndex(el, prefix, ndx) {
-    var id_regex = new RegExp('(' + prefix + '-\\d+)');
-    var replacement = prefix + '-' + ndx;
-    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-    if (el.id) el.id = el.id.replace(id_regex, replacement);
-    if (el.name) el.name = el.name.replace(id_regex, replacement);
-}
-function cloneMore(selector, prefix) {
-    var newElement = $(selector).clone(true);
-    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    newElement.find(':input').each(function() {
-        var name = $(this).attr('name').replace('-' + (total-1) + '-', '-' + total + '-');
-        var id = 'id_' + name;
-        $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-    });
-    total++;
-    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-    $(selector).after(newElement);
-    var conditionRow = $('.form-row:not(:last)');
-    conditionRow.find('.btn.add-form-row')
-    .removeClass('btn-success').addClass('btn-danger')
-    .removeClass('add-form-row').addClass('remove-form-row')
-    .html('<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>');
-    return false;
-}
-function deleteForm(prefix, btn) {
-    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-    if (total > 1){
-        btn.closest('.form-row').remove();
-        var forms = $('.form-row');
-        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-        for (var i=0, formCount=forms.length; i<formCount; i++) {
-            $(forms.get(i)).find(':input').each(function() {
-                updateElementIndex(this, prefix, i);
-            });
-        }
-    }
-    return false;
-}
-$(document).on('click', '.add-form-row', function(e){
-    e.preventDefault();
-    cloneMore('.form-row:last', 'form');
-    return false;
-});
-$(document).on('click', '.remove-form-row', function(e){
-    e.preventDefault();
-    deleteForm('form', $(this));
-    return false;
-});
-</script>

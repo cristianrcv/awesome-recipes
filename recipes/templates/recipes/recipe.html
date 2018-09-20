@@ -1,33 +1,44 @@
 <!-- TITLE -->
-<a class="lead" href="{% url "recipe_detail" recipe.pk %}">{{ recipe.title }}</a>
+<a class="lead" href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a>
 
 <!-- GENERAL INFORMATION -->
-<br>Course: <span class="label label-warning">{{ recipe.course|title }}</span>
-<br>Elaboration Time: {{ recipe.elaboration_time }} {{ recipe.elaboration_time_units|lower }}
-<br>Keywords:
-{% if recipe.keywords.count %}
-{% for kw in recipe.keywords.all %}
-<span class="label label-primary">{{ kw|title }}</span>&nbsp;
-{% endfor %}
-{% endif %}
-<!-- INGREDIENTS FOR ELABORATION -->
-<br>Ingredients:
-{% if recipe.ingredients.count %}
-{% for ingredient in recipe.ingredients.all %}
-<span class="label label-primary">{{ ingredient.quantity }} {{ ingredient.units|lower }} {{ ingredient.name|lower }}</span>&nbsp;
-{% endfor %}
-{% endif %}
+<div>
+    <br>Course: <span class="label label-warning">{{ recipe.course|title }}</span>
+    <br>Elaboration Time: {{ recipe.elaboration_time }} {{ recipe.elaboration_time_units|lower }}
+    <br>Keywords:
+    {% if recipe.keywords.count %}
+        {% for kw in recipe.keywords.all %}
+            <span class="label label-primary">{{ kw|title }}</span>&nbsp;
+        {% endfor %}
+    {% endif %}
+
+    <!-- INGREDIENTS FOR ELABORATION -->
+    <br>Ingredients:
+    {% if recipe.ingredients.count %}
+        {% for ingredient in recipe.ingredients.all %}
+            <span class="label label-primary">{{ ingredient.quantity }} {{ ingredient.units|lower }} {{ ingredient.name|lower }}</span>&nbsp;
+        {% endfor %}
+    {% endif %}
+</div>
+
 <!-- META INFORMATION -->
-<br>Written by <a href="{% url "recipes_user_list" recipe.owner.username %}">{{ recipe.owner.username }}</a>
-<br>Access Level:
-{% if not recipe.is_public %}
-<span class="label label-primary">private</span>
-{% else %}
-<span class="label label-warning">public</span>
-{% endif %}
-<br>{{ recipe.date_created|timesince }} ago
+<div>
+    <br>Written by <a href="{% url 'recipes_user_list' recipe.owner.username %}">{{ recipe.owner.username }}</a>
+    <br>Access Level:
+    {% if not recipe.is_public %}
+    <span class="label label-primary">private</span>
+    {% else %}
+    <span class="label label-warning">public</span>
+    {% endif %}
+    <!-- <br>{{ recipe.date_created|timesince }} ago -->
+</div>
+
 <!-- EDIT/DELETE FORMS -->
-{% if recipe.owner == user or user.is_superuser %}
-<br><a class="btn btn-default btn-xs" role="button" href="{% url "recipe_edit" recipe.pk %}">Edit recipe</a>
-<a class="btn btn-default btn-xs" role="button" href="{% url "recipe_delete" recipe.pk %}">Delete recipe</a>
-{% endif %}
+<div align="center">
+    {% if recipe.owner == user or user.is_superuser %}
+        <br><a class="btn btn-success" role="button" href="{% url 'recipe_edit' recipe.pk %}">Edit recipe</a>
+        &nbsp
+        &nbsp
+        <a class="btn btn-danger" role="button" href="{% url 'recipe_delete' recipe.pk %}">Delete recipe</a>
+    {% endif %}
+</div>
