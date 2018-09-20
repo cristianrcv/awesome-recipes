@@ -84,13 +84,7 @@ python manage.py createsuperuser
 ### Complete command
 
 ```bash
-python manage.py flush && python manage.py makemigrations recipes && python manage.py migrate && python manage.py loaddata recipes/fixtures/base.json && python manage.py createsuperuser && python manage.py runserver
-```
-
-or
-
-```bash
-python manage.py flush && python manage.py makemigrations recipes && python manage.py migrate && python manage.py loaddata recipes/fixtures/base.json && echo "from django.contrib.auth import get_user_model; User = get_us_model(); User.objects.create_superuser('admin', '', '1234')" | python manage.py shell && python manage.py runserver
+rm -f db.sqlite3 && python manage.py flush && python manage.py makemigrations recipes && python manage.py migrate && echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('admin', '', '1234')" | python manage.py shell && python manage.py loaddata recipes/fixtures/base.json && python manage.py runserver
 ```
 
 
