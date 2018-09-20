@@ -56,8 +56,6 @@ It is a personal project and it is still under development.
 
 - [Django][django] Python module
 - [django-crispy-forms][django-crispy-forms] Python module
-- [django-measurement][django-measurement] Python module
-- [measurement][measurement] Python module
 
 
 ## Useful Commands
@@ -122,8 +120,6 @@ Licensed under the [Apache 2.0 License][apache-2]
 
 [django]: https://www.djangoproject.com/
 [django-crispy-forms]: https://django-crispy-forms.readthedocs.io/en/latest/
-[django-measurement]: https://github.com/coddingtonbear/django-measurement
-[measurement]: https://pypi.org/project/measurement/
 
 [pycodestyle]: https://pypi.python.org/pypi/pycodestyle
 
