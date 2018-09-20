@@ -128,7 +128,7 @@
     <div class="row spacer" align="center">
         <input type="submit" class="btn btn-success" value="Save Recipe">
         &nbsp;&nbsp;
-        <button type="button" class="btn btn-danger">Cancel</button>
+        <a class="btn btn-danger" role="button" href="{% url 'recipes_list' %}">Cancel</a>
     </div>
 </form>
 {% endblock %}

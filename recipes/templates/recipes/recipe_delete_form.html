@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Delete Recipe
+{% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block heading %}
+<h2>Delete Recipe</h2>
+<hr>
+{% endblock %}
+
+{% block content %}
+{% url "recipe_delete" pk=form.instance.pk as action_url %}
+<form action="{{ action_url }}" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+
+    <!-- General Recipe form -->
+    {{ form | crispy }}
+
+    <!-- Submission and cancel buttons -->
+    <p>&nbsp</p>
+    <hr>
+    <div class="row spacer" align="center">
+        <input type="submit" class="btn btn-success" value="Delete Recipe">
+        &nbsp;&nbsp;
+        <a class="btn btn-danger" role="button" href="{% url 'recipes_list' %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}
+

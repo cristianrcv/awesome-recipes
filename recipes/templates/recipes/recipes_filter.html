@@ -9,7 +9,7 @@
 {% block content %}
 <ul class="list-unstyled">
     {% for recipe in recipes %}
-    <li class="well well-sm">{% include "recipes/recipe.html" %}</li>
+    <li class="well well-sm">{% include "recipes/recipe_preview.html" %}</li>
     {% empty %}
     <li>No recipes</li>
     {% endfor %}

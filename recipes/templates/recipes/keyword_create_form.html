@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Create Keyword
+{% endblock %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block heading %}
+<h2>Create Keyword</h2>
+<hr>
+{% endblock %}
+
+{% block content %}
+{% url "keyword_create" as action_url %}
+<form action="{{ action_url }}" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+
+    <!-- General Keyword form -->
+    <div class="row spacer">
+        {{ keyword_form | crispy }}
+    </div>
+
+    <!-- Submission and cancel buttons -->
+    <p>&nbsp</p>
+    <hr>
+    <div class="row spacer" align="center">
+        <input type="submit" class="btn btn-success" value="Save Keyword">
+        &nbsp;&nbsp;
+        <a class="btn btn-danger" role="button" href="{% url 'recipes_list' %}">Cancel</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,30 +1,33 @@
 {% if user.is_authenticated %}
 <ul class="nav navbar-nav navbar-right">
-  <li><a href="{% url "recipes_list" %}">Public recipes</a></li>
-  <li><a href="{% url "recipes_user_list" user.username %}">My recipes</a></li>
-  <li><a href="{% url "recipes_filter" %}">Filter recipes</a></li>
-  <li><a href="{% url "recipe_create" %}">Create Recipe</a></li>
-  <li class="dropdown">
-    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-        aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="{% url "recipes_list" %}">Public recipes</a></li>
-      <li><a href="{% url "recipes_user_list" user.username %}">My recipes</a></li>
-      <li><a href="{% url "recipes_filter" %}">Filter recipes</a></li>
-      <li><a href="{% url "awesome_recipes_logout" %}">Logout</a></li>
-    </ul>
-  </li>
+    <li><a href="{% url 'recipes_list' %}">Public recipes</a></li>
+    <li><a href="{% url 'recipes_user_list' user.username %}">My recipes</a></li>
+    <li><a href="{% url 'recipes_filter' %}">Filter recipes</a></li>
+    <li><a href="{% url 'recipe_create' %}">Create Recipe</a></li>
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+           aria-expanded="false">{{ user.username }} <span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li><a href="{% url 'recipes_list' %}">Public recipes</a></li>
+            <li><a href="{% url 'recipes_user_list' user.username %}">My recipes</a></li>
+            <li><a href="{% url 'recipes_filter' %}">Filter recipes</a></li>
+            <li><a href="{% url 'awesome_recipes_logout' %}">Logout</a></li>
+            <li><a href="{% url 'recipe_create' %}">Create Recipe</a></li>
+            <li><a href="{% url 'keyword_create' %}">Create Keyword</a></li>
+            <li><a href="{% url 'raw_material_create' %}">Create Raw Material</a></li>
+        </ul>
+    </li>
 </ul>
 {% else %}
-<form class="navbar-form navbar-right" role="form" action="{% url "awesome_recipes_login" %}"
-    method="post" accept-charset="utf-8">
-  <div class="form-group">
-    <input type="text" placeholder="Username" class="form-control" name="username">
-  </div>
-  <div class="form-group">
-    <input type="password" placeholder="Password" class="form-control" name="password">
-  </div>
-  {% csrf_token %}
-  <button type="submit" class="btn btn-success">Sign in</button>
+<form class="navbar-form navbar-right" role="form" action="{% url 'awesome_recipes_login' %}"
+      method="post" accept-charset="utf-8">
+    <div class="form-group">
+        <input type="text" placeholder="Username" class="form-control" name="username">
+    </div>
+    <div class="form-group">
+        <input type="password" placeholder="Password" class="form-control" name="password">
+    </div>
+    {% csrf_token %}
+    <button type="submit" class="btn btn-success">Sign in</button>
 </form>
 {% endif %}

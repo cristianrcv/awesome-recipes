@@ -8,9 +8,16 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
-from .models import Recipe, Ingredient, Image
-from .forms import RecipeForm, RecipeDeleteForm
-from .forms import IngredientsFormSet, ImagesFormSet
+from .models import Recipe
+from .models import Ingredient
+from .models import Image
+
+from .forms import KeywordForm
+from .forms import RawMaterialForm
+from .forms import RecipeForm
+from .forms import RecipeDeleteForm
+from .forms import IngredientsFormSet
+from .forms import ImagesFormSet
 
 
 @login_required
@@ -85,7 +92,7 @@ def recipe_create(request):
                'ingredients_form': ingredients_form,
                'images_form': images_form,
                'create': True}
-    return render(request, 'recipes/create_edit_form.html', context)
+    return render(request, 'recipes/recipe_create_edit_form.html', context)
 
 
 @login_required
@@ -144,7 +151,7 @@ def recipe_edit(request, pk):
                'ingredients_form': ingredients_form,
                'images_form': images_form,
                'create': False}
-    return render(request, 'recipes/create_edit_form.html', context)
+    return render(request, 'recipes/recipe_create_edit_form.html', context)
 
 
 @login_required
@@ -158,10 +165,10 @@ def recipe_delete(request, pk):
 
         if form.is_valid():
             # Delete nested objects: Ingredients
-            for ingredient in recipe.ingredients:
+            for ingredient in recipe.ingredients.all():
                 ingredient.delete()
             # Delete nested objects: Images
-            for image in recipe.images:
+            for image in recipe.images.all():
                 image.delete()
             # Delete recipe object
             recipe.delete()
@@ -171,4 +178,46 @@ def recipe_delete(request, pk):
         form = RecipeDeleteForm(instance=recipe)
 
     template_vars = {'form': form}
-    return render(request, 'recipes/delete_form.html', template_vars)
+    return render(request, 'recipes/recipe_delete_form.html', template_vars)
+
+
+@login_required
+def keyword_create(request):
+    if request.method == 'GET':
+        keyword_form = KeywordForm(request.GET or None)
+    elif request.method == 'POST':
+        keyword_form = KeywordForm(request.POST or None)
+        if keyword_form.is_valid():
+            # Save keyword
+            keyword = keyword_form.save(commit=False)
+            keyword.save()
+
+            # Redirect
+            return redirect('recipes_user_list', username=request.user.username)
+    else:
+        keyword_form = KeywordForm()
+    context = {'message': "Check your form",
+               'keyword_form': keyword_form,
+               'create': True}
+    return render(request, 'recipes/keyword_create_form.html', context)
+
+
+@login_required
+def raw_material_create(request):
+    if request.method == 'GET':
+        raw_material_form = RawMaterialForm(request.GET or None)
+    elif request.method == 'POST':
+        raw_material_form = RawMaterialForm(request.POST or None)
+        if raw_material_form.is_valid():
+            # Save keyword
+            raw_material = raw_material_form.save(commit=False)
+            raw_material.save()
+
+            # Redirect
+            return redirect('recipes_user_list', username=request.user.username)
+    else:
+        raw_material_form = RawMaterialForm()
+    context = {'message': "Check your form",
+               'raw_material_form': raw_material_form,
+               'create': True}
+    return render(request, 'recipes/raw_material_create_form.html', context)
