@@ -11,10 +11,12 @@
             <li><a href="{% url 'recipes_list' %}">Public recipes</a></li>
             <li><a href="{% url 'recipes_user_list' user.username %}">My recipes</a></li>
             <li><a href="{% url 'recipes_filter' %}">Filter recipes</a></li>
-            <li><a href="{% url 'awesome_recipes_logout' %}">Logout</a></li>
+            <li>&nbsp</li>
             <li><a href="{% url 'recipe_create' %}">Create Recipe</a></li>
             <li><a href="{% url 'keyword_create' %}">Create Keyword</a></li>
             <li><a href="{% url 'raw_material_create' %}">Create Raw Material</a></li>
+            <li>&nbsp</li>
+            <li><a href="{% url 'awesome_recipes_logout' %}">Logout</a></li>
         </ul>
     </li>
 </ul>
