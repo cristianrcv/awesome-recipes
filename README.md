@@ -74,12 +74,19 @@ python manage.py runserver
 python manage.py flush
 python manage.py makemigrations recipes
 python manage.py migrate
+python manage.py loaddata recipes/fixtures/base.json
 ```
 
 ### Super user creation
 
 ```
 python manage.py createsuperuser
+```
+
+### Complete command
+
+```
+python manage.py flush && python manage.py makemigrations recipes && python manage.py migrate && python manage.py loaddata recipes/fixtures/base.json && python manage.py createsuperuser && python manage.py runserver
 ```
 
 
