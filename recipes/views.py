@@ -19,6 +19,8 @@ from .forms import RecipeDeleteForm
 from .forms import IngredientsFormSet
 from .forms import ImagesFormSet
 
+from .filters import RecipesFilter
+
 
 @login_required
 def recipes_list(request):
@@ -40,8 +42,9 @@ def recipes_user_list(request, username):
 
 @login_required
 def recipes_filter(request):
-    recipes = Recipe.public.all()
-    context = {'recipes': recipes}
+    all_recipes = Recipe.objects.all()
+    filtered_recipes = RecipesFilter(request.GET, queryset=all_recipes)
+    context = {'filter': filtered_recipes}
     return render(request, 'recipes/recipes_filter.html', context)
 
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import url
-
 from django.contrib.auth.views import login
 
 from recipes.views import recipes_list
