@@ -31,49 +31,152 @@
     "model": "recipes.rawmaterial",
     "pk": 1,
     "fields": {
-      "name": "Onion"
+      "name": "Chicken"
     }
   },
   {
     "model": "recipes.rawmaterial",
     "pk": 2,
     "fields": {
-      "name": "Chicken"
+      "name": "Egg"
     }
   },
   {
     "model": "recipes.rawmaterial",
     "pk": 3,
     "fields": {
-      "name": "Salt"
+      "name": "Flour"
     }
   },
   {
     "model": "recipes.rawmaterial",
     "pk": 4,
     "fields": {
-      "name": "Oil"
+      "name": "Salt"
     }
   },
   {
     "model": "recipes.rawmaterial",
     "pk": 5,
     "fields": {
-      "name": "Pepper"
+      "name": "Spices"
+    }
+  },
+  {
+    "model": "recipes.rawmaterial",
+    "pk": 6,
+    "fields": {
+      "name": "Oil"
     }
   },
   {
     "model": "recipes.keyword",
     "pk": 1,
     "fields": {
-      "name": "Soup"
+      "name": "Meat"
     }
   },
   {
     "model": "recipes.keyword",
     "pk": 2,
     "fields": {
-      "name": "Meat"
+      "name": "Easy"
+    }
+  },
+  {
+    "model": "recipes.keyword",
+    "pk": 3,
+    "fields": {
+      "name": "Awesome"
+    }
+  },
+  {
+    "model": "recipes.recipe",
+    "pk": 1,
+    "fields": {
+      "title": "Crispy Chicken Strips",
+      "course": 2,
+      "keywords": [
+        1,
+        2,
+        3
+      ],
+      "elaboration_time": "45",
+      "elaboration_time_units": "minute",
+      "elaboration": "In a bowl, combine flour and seasoned salt or other preferred seasonings and mix together well. In a separate bowl, beat two eggs. Take a few chicken strips, submerge in the eggs, and place them in the flour mixture, turning over to coat thoroughly. Place chicken strips on a plate. Continue with remaining chicken strips until all are coated. When the oil is sufficiently heated (flour should bubble when sprinkled in), start frying chicken strips a few at a time. Cook for about a minute and a half or so on each side until the chicken is done and golden and crispy. Transfer to a paper towel lined plate and fry remaining chicken.",
+      "owner": 1,
+      "is_public": "True",
+      "date_created": "2018-09-20T16:00:00+00:00",
+      "date_updated": "2018-09-20T16:00:00+00:00"
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 1,
+    "fields": {
+      "name": 1,
+      "quantity": 500,
+      "units": "gram",
+      "recipe": 1
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 2,
+    "fields": {
+      "name": 2,
+      "quantity": 2,
+      "units": "unit",
+      "recipe": 1
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 3,
+    "fields": {
+      "name": 3,
+      "quantity": 100,
+      "units": "gram",
+      "recipe": 1
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 4,
+    "fields": {
+      "name": 4,
+      "quantity": 2,
+      "units": "tablespoon",
+      "recipe": 1
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 5,
+    "fields": {
+      "name": 5,
+      "quantity": 1,
+      "units": "unit",
+      "recipe": 1
+    }
+  },
+  {
+    "model": "recipes.ingredient",
+    "pk": 6,
+    "fields": {
+      "name": 6,
+      "quantity": 2,
+      "units": "dl",
+      "recipe": 1
+    }
+  },
+  {
+    "model": "recipes.image",
+    "pk": 1,
+    "fields": {
+      "document": "user_1/crispy_chicken_strips_image.jpeg",
+      "uploaded_at": "2018-09-20T16:00:00+00:00",
+      "recipe": 1
     }
   }
 ]
