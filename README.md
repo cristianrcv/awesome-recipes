@@ -54,8 +54,10 @@ It is a personal project and it is still under development.
 
 ### Python Module Dependencies
 
-- [Django][django] Python module
-- [django-crispy-forms][django-crispy-forms] Python module
+- [Django][django] Python module (1.11.15)
+- [django-crispy-forms][django-crispy-forms] Python module (1.7.2)
+- [django-filter][django-filter] Python module (1.1.0)
+- [django-widget-tweaks][django-widget-tweaks] Python module (1.4.3)
 
 
 ## Useful Commands
@@ -120,6 +122,8 @@ Licensed under the [Apache 2.0 License][apache-2]
 
 [django]: https://www.djangoproject.com/
 [django-crispy-forms]: https://django-crispy-forms.readthedocs.io/en/latest/
+[django-filter]: https://django-filter.readthedocs.io/en/master/
+[django-widget-tweaks]: https://pypi.org/project/django-widget-tweaks/
 
 [pycodestyle]: https://pypi.python.org/pypi/pycodestyle
 
