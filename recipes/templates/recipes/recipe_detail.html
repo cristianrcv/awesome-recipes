@@ -9,6 +9,7 @@
 <div>
     <p><strong>Course: </strong>{{ recipe.course|title }}</p>
     <p><strong>Elaboration Time: </strong>{{ recipe.elaboration_time }}{{ recipe.elaboration_time_units|lower}}</p>
+    <p><strong>Number of Rations: </strong>{{ recipe.num_rations }}</p>
     <p><strong>Keywords:</strong>
         {% if recipe.keywords.count %}
             {% for kw in recipe.keywords.all %}

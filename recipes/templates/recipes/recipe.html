@@ -16,7 +16,7 @@
     <br>Ingredients:
     {% if recipe.ingredients.count %}
         {% for ingredient in recipe.ingredients.all %}
-            <span class="label label-primary">{{ ingredient.quantity }} {{ ingredient.units|lower }} {{ ingredient.name|lower }}</span>&nbsp;
+            <span class="label label-primary">{{ ingredient.name|lower }}</span>&nbsp;
         {% endfor %}
     {% endif %}
 </div>

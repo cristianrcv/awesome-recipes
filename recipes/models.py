@@ -82,8 +82,8 @@ class Recipe(models.Model):
 
     elaboration_time = models.PositiveSmallIntegerField()
     elaboration_time_units = models.CharField(max_length=10, choices=UNITS, default='1')
+    num_rations = models.PositiveSmallIntegerField()
     elaboration = models.TextField('elaboration', blank=True)
-    # ingredients = models.ManyToManyField(Ingredient, blank=True)
 
     owner = models.ForeignKey(User, verbose_name='owner', related_name='recipes')
     is_public = models.BooleanField('public', default=True)

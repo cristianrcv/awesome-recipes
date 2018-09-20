@@ -11,8 +11,9 @@ from .models import Course, Keyword, RawMaterial, Recipe, Ingredient, Image
 #
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('title', 'course', 'elaboration_time', 'elaboration_time_units', 'elaboration', 'is_public')
-    list_editable = ('course', 'elaboration_time', 'elaboration_time_units', 'elaboration', 'is_public')
+    list_display = (
+        'title', 'course', 'elaboration_time', 'elaboration_time_units', 'elaboration', 'num_rations', 'is_public')
+    list_editable = ('course', 'elaboration_time', 'elaboration_time_units', 'num_rations', 'elaboration', 'is_public')
     list_filter = ('course', 'is_public', 'owner__username')
     search_fields = ['title', 'course']
     readonly_fields = ('date_created', 'date_updated')
