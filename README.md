@@ -62,13 +62,13 @@ It is a personal project and it is still under development.
 
 ### Run
 
-```
+```bash
 python manage.py runserver
 ```
 
 ### Database
 
-```
+```bash
 python manage.py flush
 python manage.py makemigrations recipes
 python manage.py migrate
@@ -77,14 +77,20 @@ python manage.py loaddata recipes/fixtures/base.json
 
 ### Super user creation
 
-```
+```bash
 python manage.py createsuperuser
 ```
 
 ### Complete command
 
-```
+```bash
 python manage.py flush && python manage.py makemigrations recipes && python manage.py migrate && python manage.py loaddata recipes/fixtures/base.json && python manage.py createsuperuser && python manage.py runserver
+```
+
+or
+
+```bash
+python manage.py flush && python manage.py makemigrations recipes && python manage.py migrate && python manage.py loaddata recipes/fixtures/base.json && echo "from django.contrib.auth import get_user_model; User = get_us_model(); User.objects.create_superuser('admin', '', '1234')" | python manage.py shell && python manage.py runserver
 ```
 
 
@@ -97,7 +103,7 @@ This project tolerates the following relaxations:
 
 You can verify the code style by running:
 
-```
+```bash
 pycodestyle . --max-line-length=120
 ```
 
