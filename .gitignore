@@ -7,3 +7,6 @@
 
 # Database
 *.sqlite3
+
+# Amazon pems
+amazon_pems/
