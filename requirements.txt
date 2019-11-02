@@ -2,6 +2,6 @@ Django==1.11.15
 django-crispy-forms==1.7.2
 django-filter==1.1.0
 django-widget-tweaks==1.4.3
-Pillow==5.2.0
+Pillow==6.2.0
 pkg-resources==0.0.0
 pytz==2018.5
